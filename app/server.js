@@ -1,14 +1,11 @@
-'use strict';
+const http = require('http');
 
-const express = require('express');
-
-const PORT = 8080;
-const HOST = '0.0.0.0';
-
-const app = express();
-app.get('/', (req, res) => {
-  res.send('Hello world\n');
+const server = http.createServer((request, response) => {
+    response.writeHead(200, {"Content-Type": "text/plain"});
+    response.end("Hello World!");
 });
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+const port = process.env.PORT || 1337;
+server.listen(port);
+
+console.log("Server running at http://localhost:%d", port);
