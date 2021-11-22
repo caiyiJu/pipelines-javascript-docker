@@ -14,8 +14,6 @@ variables:
   imageRepository: 'caiyijupipelinesjavascriptdocker'
   containerRegistry: 'tonyregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/app/Dockerfile'
-  azureSubscription: '2bc3f237-742a-4226-b4f5-8744c71ab84d'
-  appName: 'customercontainer2'
   tag: 'latest'
 
   # Agent VM image name
@@ -40,10 +38,12 @@ stages:
         tags: |
           $(tag)
 
-    ## Add the below snippet at the end of your pipeline
-    - task: AzureWebAppContainer@1
-      displayName: 'Azure Web App on Container Deploy'
+    - task: AzureRmWebAppDeployment@4
       inputs:
-        azureSubscription: $(azureSubscription)
-        appName: $(appName)
-        containers: $(containerRegistry)/$(imageRepository):$(tag)
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Tony Azure Internal Subscription(2bc3f237-742a-4226-b4f5-8744c71ab84d)'
+        appType: 'webAppContainer'
+        WebAppName: 'customercontainer2'
+        DockerNamespace: 'tonyregistry.azurecr.io'
+        DockerRepository: 'caiyijupipelinesjavascriptdocker'
+        DockerImageTag: 'latest'
